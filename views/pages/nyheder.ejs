@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<%= include ../includes/head.ejs %>
+
+    <body>
+
+        <%= include ../includes/header.ejs %>
+
+
+            <main role="main">
+                <main role="main" class="container">
+                    <div class="d-flex align-items-center p-3 my-3 text-white-50 nyheder rounded box-shadow">
+                        <img class="mr-3" src="https://getbootstrap.com/assets/brand/bootstrap-outline.svg" alt="" width="48" height="48">
+                        <div class="lh-100">
+                            <h6 class="mb-0 text-white lh-100">
+                                Nye arrangementer
+                            </h6>
+                            <small>Nye arrangementer</small>
+                        </div>
+                    </div>
+                    <% arrangement.forEach(function (test){ %>
+                        <div class="media text-muted pt-3">
+                            <img data-src="holder.js/32x32?theme=thumb&bg=007bff&fg=007bff&size=1" alt="" class="mr-2 rounded">
+                            <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                                <strong class="d-block text-gray-dark">
+                                    <%= test.navn %>
+                                        <br>
+                                        <%= test.Dato.getDate() + ". " + maaned[test.Dato.getMonth()]+ " " + test.Dato.getFullYear() + " " + test.Dato.getHours() + ":" + (test.Dato.getMinutes()<10?'0':'') + test.Dato.getMinutes() %>
+                                </strong>
+                                <%= test.Pris %> kr. -
+                                    <%= test.Sal %>
+                                        <a href="arrangement/<%= test.id %>">Læs mere</a>
+                        </div>
+                        <% }); %>
+
+
+                            <!-- Bootstrap core JavaScript
+        ================================================== -->
+                            <!-- Placed at the end of the document so the pages load faster -->
+                            <%= include ../includes/footer.ejs %>
+    </body>
+
+
+</html>

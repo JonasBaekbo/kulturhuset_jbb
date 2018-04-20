@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<%= include ../includes/head.ejs %>
+
+    <body>
+        <%= include ../includes/header.ejs %>
+            <main role="main" class="container">
+                <div class="d-flex align-items-center p-3 my-3 text-white-50 arrangement rounded box-shadow">
+                    <img class="mr-3" src="https://getbootstrap.com/assets/brand/bootstrap-outline.svg" alt="" width="48" height="48">
+                    <div class="lh-100">
+                        <h6 class="mb-0 text-white lh-100">
+                            <%= arrangement.navn %>
+                        </h6>
+                        <%= arrangement.Dato.getDate() + ". " + maaned[arrangement.Dato.getMonth()]+ " " + arrangement.Dato.getFullYear() + " " + arrangement.Dato.getHours() + ":" + (arrangement.Dato.getMinutes()<10?'0':'') + arrangement.Dato.getMinutes() %>
+                    </div>
+                </div>
+                <!-- <div class="my-3 p-3 bg-white rounded box-shadow"> -->
+                <div class="media text-muted pt-3">
+                    <img data-src="holder.js/32x32?theme=thumb&bg=007bff&fg=007bff&size=1" alt="" class="mr-2 rounded">
+                    <p>
+                        Pris:
+                        <%= arrangement.Pris %> kr.
+                            <br> Lokation:
+                            <%= arrangement.Sal %>
+                                <br>
+                                <%= arrangement.beskrivelse %>
+                                    <br>
+                                    <img src="/images/<%= arrangement.billede %>" alt="<%= arrangement.navn %>">
+                    </p>
+                </div>
+                <div class="content clearfix">
+                    <h2>Book din billet:</h2>
+                    <canvas id="myCanvas" width="880" height="550"></canvas>
+                </div>
+
+                <% { %>
+                    <script>
+                        var canvas = document.getElementById("myCanvas");
+                        var ctx = canvas.getContext("2d");
+                        var ballRadius = 18;
+                        // var x = canvas.width / 2;
+                        var x = Math.floor(Math.random() * canvas.width);
+                        var y = canvas.height - 30;
+                        var dx = 4;
+                        var dy = -4;
+                        var brickRowCount = '<%= arrangement.Pladser %>' / 5;
+                        var brickColumnCount = '<%= arrangement.Pladser %>' / brickRowCount;
+                        var brickWidth = 45;
+                        var brickHeight = 30;
+                        var brickPadding = 10;
+                        var brickOffsetTop = 30;
+                        var brickOffsetLeft = 30;
+                        var score = 0;
+                        var liv = 5;
+                        var bricks = [];
+                        for (c = 0; c < brickColumnCount; c++) {
+                            bricks[c] = [];
+                            for (r = 0; r < brickRowCount; r++) {
+                                bricks[c][r] = { x: 0, y: 0, status: 1 };
+                            }
+                        }
+
+
+
+                        function drawBricks() {
+                            for (c = 0; c < brickColumnCount; c++) {
+                                for (r = 0; r < brickRowCount; r++) {
+                                    if (bricks[c][r].status == 1) {
+                                        var brickX = (r * (brickWidth + brickPadding)) + brickOffsetLeft;
+                                        var brickY = (c * (brickHeight + brickPadding)) + brickOffsetTop;
+                                        bricks[c][r].x = brickX;
+                                        bricks[c][r].y = brickY;
+                                        ctx.beginPath();
+                                        ctx.rect(brickX, brickY, brickWidth, brickHeight);
+                                        ctx.fillStyle = "#fff";
+                                        ctx.fill();
+                                        ctx.closePath();
+                                    }
+                                }
+                            }
+                        }
+                        function drawScore() {
+                            ctx.font = "20px Arial";
+                            ctx.fillStyle = "#fff";
+                            ctx.fillText("Pladser valgt: " + score, 8, 20);
+                        }
+                        drawBricks();
+                        drawScore();  
+                    </script>
+                    <% } %>
+                        <!-- Bootstrap core JavaScript
+        ================================================== -->
+                        <!-- Placed at the end of the document so the pages load faster -->
+                        <%= include ../includes/footer.ejs %>
+    </body>
+
+
+</html>
